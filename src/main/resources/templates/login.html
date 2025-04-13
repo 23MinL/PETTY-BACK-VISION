@@ -6,15 +6,15 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #fdf7e4; /* 밝은 노랑 배경 */
+            background-color: #fdf7e4;
             color: #333;
             padding: 20px;
         }
         h1 {
-            color: #f1c40f; /* 노랑색 제목 */
+            color: #f1c40f;
             text-align: center;
         }
-        form {
+        .login-container {
             max-width: 400px;
             margin: 0 auto;
             background-color: #fff;
@@ -27,7 +27,7 @@
         }
         label {
             font-weight: bold;
-            color: #f39c12; /* 다크 노랑 */
+            color: #f39c12;
             display: block;
             margin-bottom: 5px;
         }
@@ -41,7 +41,7 @@
         button {
             width: 100%;
             padding: 10px;
-            background-color: #f39c12; /* 노랑 버튼 */
+            background-color: #f39c12;
             color: white;
             border: none;
             border-radius: 4px;
@@ -49,25 +49,64 @@
             cursor: pointer;
         }
         button:hover {
-            background-color: #f1c40f; /* 버튼 호버시 밝은 노랑 */
+            background-color: #f1c40f;
         }
     </style>
 </head>
 <body>
 <h1>로그인</h1>
-
-<form action="/login" method="post">
+<div class="login-container">
     <div>
         <label for="username">아이디:</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" required>
     </div>
     <div>
         <label for="password">비밀번호:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" required>
     </div>
     <div>
-        <button type="submit">로그인</button>
+        <button onclick="login()">로그인</button>
     </div>
-</form>
+</div>
+
+<script>
+    // 페이지 로드 시 토큰 확인
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            window.location.href = '/';
+        }
+    });
+
+    // 로그인 함수
+    async function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const token = response.headers.get('Authorization');
+                if (token) {
+                    const jwtToken = token.startsWith('Bearer ') ? token.slice(7) : token;
+                    localStorage.setItem('jwt', jwtToken);
+                    window.location.href = '/';
+                }
+            } else {
+                alert('로그인 실패');
+            }
+        } catch (error) {
+            console.error('로그인 에러:', error);
+            alert('로그인 중 오류가 발생했습니다.');
+        }
+    }
+</script>
 </body>
 </html>

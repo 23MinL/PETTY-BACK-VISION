@@ -1,5 +1,7 @@
 package io.github.petty.config;
 
+import io.github.petty.users.jwt.JWTFilter;
+import io.github.petty.users.jwt.JWTUtil;
 import io.github.petty.users.jwt.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +20,11 @@ public class SecurityConfig {
 
     //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
         this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
     }
 
     //AuthenticationManager Bean 등록
@@ -44,7 +48,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/user").authenticated() // 로그인이 필요한 페이지
                         .anyRequest().permitAll())
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
