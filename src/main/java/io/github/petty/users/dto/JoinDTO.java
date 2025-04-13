@@ -9,6 +9,6 @@ import java.util.UUID;
 @Setter
 public class JoinDTO {
     private String username;
-    private String email;
     private String password;
+    private String displayName;
 }

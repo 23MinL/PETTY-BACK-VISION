@@ -20,9 +20,9 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String username; // 현재는 id , 추후에는는 이름으로 사용
-    private String email; // 추후에는 id 겸용
+    private String username; // email
     private String password;
+    private String displayName;
     private String role;
 
     @CreationTimestamp
