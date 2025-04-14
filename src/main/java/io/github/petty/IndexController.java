@@ -13,4 +13,9 @@ public class IndexController {
         model.addAttribute("message", "PETTY 테스트");
         return "index";
     }
+
+    @GetMapping("/vision/upload")
+    public String visionUploadPage() {
+        return "visionUpload";
+    }
 }

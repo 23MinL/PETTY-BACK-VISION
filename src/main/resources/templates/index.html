@@ -1,10 +1,15 @@
+<!-- src/main/resources/templates/index.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>🐶 PETTY </title>
+    <title>🐶 PETTY 메인</title>
 </head>
 <body>
-    <h1 th:text="${message}">index message</h1>
+<h1 th:text="${message}">PETTY에 오신 것을 환영합니다</h1>
+
+<form method="get" action="/vision/upload">
+    <button type="submit">이미지 업로드하러 가기</button>
+</form>
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!-- src/main/resources/templates/visionUpload.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🐾 PETTY - 동물 이미지 분석</title>
+</head>
+<body>
+<h1>동물 이미지 분석</h1>
+
+<form method="post" enctype="multipart/form-data" action="/api/vision/analyze">
+    <label>반려동물 이름: <input type="text" name="petName" placeholder="반려동물 이름 입력" required /></label><br/><br/>
+    <label>이미지 선택: <input type="file" name="file" required /></label>
+    <button type="submit">분석하기</button>
+</form>
+
+<div th:if="${message}">
+    <h2 th:text="${message}"></h2>
+</div>
+
+<div th:if="${analysisResult}">
+    <h3>분석 결과</h3>
+    <pre th:text="${analysisResult}"></pre>
+</div>
+
+<hr />
+<a href="/">⬅ 돌아가기</a>
+</body>
+</html>
