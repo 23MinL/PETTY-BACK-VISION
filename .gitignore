@@ -36,6 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
-#Vision test API
+### Vision test API ###
 application-dev.yml
 credentials.json
+
+### secret ###
+application-secret.yml

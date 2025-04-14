@@ -3,13 +3,122 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>🐶 PETTY 메인</title>
+    <title>🐶 PETTY </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdf7e4;
+            color: #333;
+            padding: 20px;
+        }
+        .nav {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #f39c12;
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .nav a:hover {
+            background-color: #f1c40f;
+            color: white;
+        }
+        .auth-menu {
+            float: right;
+        }
+        .user-info {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .user-info h2 {
+            color: #f39c12;
+            margin: 10px 0;
+        }
+    </style>
 </head>
+
 <body>
 <h1 th:text="${message}">PETTY에 오신 것을 환영합니다</h1>
-
-<form method="get" action="/vision/upload">
+<div>
+  <form method="get" action="/vision/upload">
     <button type="submit">이미지 업로드하러 가기</button>
-</form>
+  </form>
+  </div>
+<div class="nav">
+    <a href="/">홈</a>
+    <div class="auth-menu">
+        <span id="loginMenu" style="display: none;">
+            <a href="/login">로그인</a>
+            <a href="/join">회원가입</a>
+        </span>
+        <span id="userMenu" style="display: none;">
+            <a href="#" onclick="logout()">로그아웃</a>
+        </span>
+    </div>
+</div>
+
+<h1 th:text="${message}">index message</h1>
+
+<div class="user-info" id="userInfo" style="display: none;">
+    <h2>사용자 정보</h2>
+    <p>이름: <span id="username"></span></p>
+    <p>권한: <span id="role"></span></p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+            showLoginMenu();
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/users/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('userMenu').style.display = 'inline';
+                document.getElementById('loginMenu').style.display = 'none';
+                document.getElementById('userInfo').style.display = 'block';
+                document.getElementById('username').textContent = data.username;
+                document.getElementById('role').textContent = data.role;
+            } else {
+                showLoginMenu();
+                if (response.status === 401) {
+                    localStorage.removeItem('jwt');
+                }
+            }
+        } catch (error) {
+            console.error('사용자 정보 조회 실패:', error);
+            showLoginMenu();
+            localStorage.removeItem('jwt');
+        }
+    });
+
+    function showLoginMenu() {
+        document.getElementById('userMenu').style.display = 'none';
+        document.getElementById('loginMenu').style.display = 'inline';
+        document.getElementById('userInfo').style.display = 'none';
+    }
+
+    function logout() {
+        localStorage.removeItem('jwt');
+        window.location.href = '/';
+    }
+</script>
 </body>
 </html>

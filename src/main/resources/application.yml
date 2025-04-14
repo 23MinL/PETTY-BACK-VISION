@@ -1,12 +1,11 @@
 spring:
   profiles:
     active: secret
-
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
-
+      
   jpa:
     hibernate:
       ddl-auto: update
