@@ -42,6 +42,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// ✅ Google Cloud Vision
+	implementation 'com.google.cloud:google-cloud-vision:3.33.0'
+
+	// ✅ AWS SDK v2 - Rekognition
+	implementation platform('software.amazon.awssdk:bom:2.25.19')
+	implementation 'software.amazon.awssdk:rekognition'
 }
 
 tasks.named('test') {

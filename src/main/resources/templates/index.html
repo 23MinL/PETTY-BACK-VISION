@@ -1,3 +1,4 @@
+<!-- src/main/resources/templates/index.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -44,7 +45,14 @@
         }
     </style>
 </head>
+
 <body>
+<h1 th:text="${message}">PETTY에 오신 것을 환영합니다</h1>
+<div>
+  <form method="get" action="/vision/upload">
+    <button type="submit">이미지 업로드하러 가기</button>
+  </form>
+  </div>
 <div class="nav">
     <a href="/">홈</a>
     <div class="auth-menu">
