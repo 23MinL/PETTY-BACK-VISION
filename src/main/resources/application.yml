@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: secret
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  config:
+    import: "optional:classpath:application-secret.yml"
