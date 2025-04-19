@@ -21,6 +21,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	// SpringAI 관련 maven 설정
 	maven { url 'https://repo.spring.io/milestone' }
 	maven { url 'https://repo.spring.io/snapshot' }
 	maven {
@@ -48,16 +49,17 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	// ✅ Google Cloud Vision
-	implementation 'com.google.cloud:google-cloud-vision:3.33.0'
-	// ✅ AWS SDK v2 - Rekognition
-	implementation platform('software.amazon.awssdk:bom:2.25.19')
-	implementation 'software.amazon.awssdk:rekognition'
+//	// ✅ Google Cloud Vision
+//	implementation 'com.google.cloud:google-cloud-vision:3.33.0'
+//	// ✅ AWS SDK v2 - Rekognition
+//	implementation platform('software.amazon.awssdk:bom:2.25.19')
+//	implementation 'software.amazon.awssdk:rekognition'
 
 	// SpringAI API
-//	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
-//	implementation "org.springframework.ai:spring-ai-starter-model-openai"
-//	implementation "org.springframework.ai:spring-ai-starter-vector-store-qdrant"
+	implementation 'io.grpc:grpc-xds:1.62.2'
+	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
+	implementation "org.springframework.ai:spring-ai-starter-model-openai"
+	implementation "org.springframework.ai:spring-ai-starter-vector-store-qdrant"
 }
 
 tasks.named('test') {
