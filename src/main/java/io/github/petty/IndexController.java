@@ -18,4 +18,10 @@ public class IndexController {
     public String visionUploadPage() {
         return "visionUpload";
     }
+
+    // 여행지 추천
+    @GetMapping("/recommend")
+    public String recommendForm() {
+        return "recommend";
+    }
 }

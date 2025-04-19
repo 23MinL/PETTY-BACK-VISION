@@ -86,6 +86,18 @@ public class EmbeddingService {
         metadata.put("title", content.getTitle());
         metadata.put("source", "tourContent");
 
+        // 도/시 정보 region 필드 추출 후 metadata 저장
+        // 도, 시만 필터
+        String addr1 = content.getAddr1();
+        if (addr1 != null && !addr1.isBlank()) {
+            String[] tokens = addr1.split(" ");
+            if (tokens.length >= 1) {
+                metadata.put("region", tokens[0]);
+            }
+            if (tokens.length >= 2) {
+                metadata.put("city", tokens[1]);
+            }
+        }
         // 문서 생성 - UUID -> 문서 ID
         return Document.builder()
                 .id(result.id())

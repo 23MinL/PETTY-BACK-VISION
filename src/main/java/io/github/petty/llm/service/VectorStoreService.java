@@ -40,23 +40,25 @@ public class VectorStoreService {
         SearchRequest searchRequest = SearchRequest.builder()
                 .query(query)
                 .topK(k)
-                .similarityThreshold(0.3)
+                .similarityThreshold(0.1)
                 .build();
         
         // originalID로 원본 데이터 참조 가능
         return vectorStore.similaritySearch(searchRequest);
     }
 
-    // 필터 조건을 사용한 유사 콘텐츠 검색
+//     필터 조건을 사용한 유사 콘텐츠 검색
     public List<Document> findSimilarWithFilter(String query, int k, String filterExpression) {
         SearchRequest searchRequest = SearchRequest.builder()
                 .query(query)
                 .topK(k)
-                .similarityThreshold(0.3)
+                .similarityThreshold(0.1)
                 .filterExpression(filterExpression)
                 .build();
 
-        return vectorStore.similaritySearch(searchRequest);
+        List<Document> results = vectorStore.similaritySearch(searchRequest);
+
+        return results;
     }
 
     // 저장된 벡터 삭제
