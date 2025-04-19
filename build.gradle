@@ -21,6 +21,12 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven {
+		name = 'Central Portal Snapshots'
+		url = 'https://central.sonatype.com/repository/maven-snapshots/'
+	}
 }
 
 dependencies {
@@ -44,10 +50,14 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// ✅ Google Cloud Vision
 	implementation 'com.google.cloud:google-cloud-vision:3.33.0'
-
 	// ✅ AWS SDK v2 - Rekognition
 	implementation platform('software.amazon.awssdk:bom:2.25.19')
 	implementation 'software.amazon.awssdk:rekognition'
+
+	// SpringAI API
+//	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
+//	implementation "org.springframework.ai:spring-ai-starter-model-openai"
+//	implementation "org.springframework.ai:spring-ai-starter-vector-store-qdrant"
 }
 
 tasks.named('test') {

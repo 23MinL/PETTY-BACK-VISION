@@ -3,6 +3,7 @@ package io.github.petty.tour.repository;
 
 import io.github.petty.tour.entity.Content;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +12,10 @@ import java.util.List;
 public interface ContentRepository extends JpaRepository<Content, Long> {
 
     List<Content> findByContentId(Long contentId);
-
+    @Query("""
+        SELECT c FROM Content c
+        LEFT JOIN FETCH c.petTourInfo
+    """)
 
     /**
      * 주어진 contentId 목록에 해당하는 Content 및 연관된 모든 데이터(Cascade)를 삭제합니다.
