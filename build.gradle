@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
@@ -49,10 +49,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// ✅ Google Cloud Vision
-	implementation 'com.google.cloud:google-cloud-vision:3.33.0'
+//	implementation 'com.google.cloud:google-cloud-vision:3.33.0'
 	// ✅ AWS SDK v2 - Rekognition
-	implementation platform('software.amazon.awssdk:bom:2.25.19')
-	implementation 'software.amazon.awssdk:rekognition'
+//	implementation platform('software.amazon.awssdk:bom:2.25.19')
+//	implementation 'software.amazon.awssdk:rekognition'
 
 	// SpringAI API
 //	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
