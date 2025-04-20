@@ -42,32 +42,26 @@ public class VectorStoreService {
                 .topK(k)
                 .similarityThreshold(0.1)
                 .build();
-        
-        // originalID로 원본 데이터 참조 가능
+
         return vectorStore.similaritySearch(searchRequest);
     }
 
 //     필터 조건을 사용한 유사 콘텐츠 검색
-    public List<Document> findSimilarWithFilter(String query, int k, String filterExpression) {
-        SearchRequest searchRequest = SearchRequest.builder()
-                .query(query)
-                .topK(k)
-                .similarityThreshold(0.1)
-                .filterExpression(filterExpression)
-                .build();
-
-        List<Document> results = vectorStore.similaritySearch(searchRequest);
-
-        return results;
-    }
+//    public List<Document> findSimilarWithFilter(String query, int k, String filterExpression) {
+//        SearchRequest searchRequest = SearchRequest.builder()
+//                .query(query)
+//                .topK(k)
+//                .similarityThreshold(0.1)
+//                .filterExpression(filterExpression)
+//                .build();
+//
+//        List<Document> results = vectorStore.similaritySearch(searchRequest);
+//
+//        return results;
+//    }
 
     // 저장된 벡터 삭제
     public void deleteByIds(List<String> ids) {
         vectorStore.delete(ids);
-    }
-
-    // 필터 조건으로 벡터 삭제
-    public void deleteByFilter(String filterExpression) {
-        vectorStore.delete(filterExpression);
     }
 }
