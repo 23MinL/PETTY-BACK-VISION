@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pipeline Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        textarea, input[type=text] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        input[type=submit] {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        .result-block {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>여행지 추천 요청</h1>
+<form th:action="@{/pipeline}" method="post">
+    <label for="visionReport">반려동물 보고서 (예: Vision에서 받은 텍스트)</label>
+    <textarea name="visionReport" id="visionReport" rows="6" required></textarea>
+
+    <label for="location">여행 희망 지역 (예: 강릉, 부평 등)</label>
+    <input type="text" name="location" id="location" required>
+
+    <input type="submit" value="추천 요청">
+</form>
+
+<div class="result-block" th:if="${petInfoJson}">
+    <h2>추출된 반려동물 정보 (JSON)</h2>
+    <pre th:text="${petInfoJson}"></pre>
+</div>
+
+<div class="result-block" th:if="${recommendation}">
+    <h2>추천 결과</h2>
+    <pre th:text="${recommendation}"></pre>
+</div>
+
+</body>
+</html>
