@@ -74,7 +74,7 @@
     </style>
 </head>
 <body>
-<h1>여행지 추천 요청</h1>
+<h1>프롬프트 제작소</h1>
 <form th:action="@{/pipeline}" method="post">
     <label for="visionReport">반려동물 보고서 (예: Vision에서 받은 텍스트)</label>
     <textarea name="visionReport" id="visionReport" rows="6" required></textarea>
@@ -85,16 +85,11 @@
         <ul id="dropdownList" class="dropdown-list"></ul>
     </div>
 
-    <input type="submit" value="추천 요청">
+    <input type="submit" value="제작하기">
 </form>
 
-<div class="result-block" th:if="${petInfoJson}">
-    <h2>추출된 반려동물 정보 (JSON)</h2>
-    <pre th:text="${petInfoJson}"></pre>
-</div>
-
 <div class="result-block" th:if="${recommendation}">
-    <h2>추천 결과</h2>
+    <h2>제작 결과</h2>
     <pre th:text="${recommendation}"></pre>
 </div>
 
