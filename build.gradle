@@ -54,6 +54,8 @@ dependencies {
 	// ✅ AWS SDK v2 - Rekognition
 	implementation platform('software.amazon.awssdk:bom:2.25.19')
 	implementation 'software.amazon.awssdk:rekognition'
+	// ✅ SMTP
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	// SpringAI API
 	implementation 'io.grpc:grpc-xds:1.62.2'

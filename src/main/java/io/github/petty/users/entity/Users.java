@@ -23,6 +23,7 @@ public class Users {
     private String username; // email
     private String password;
     private String displayName;
+    private String phone;
     private String role;
 
     @CreationTimestamp
