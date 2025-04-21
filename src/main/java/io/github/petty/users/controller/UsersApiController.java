@@ -51,4 +51,15 @@ public class UsersApiController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/auth/verify-code")
+    public ResponseEntity<Map<String, Object>> verifyCode(@RequestBody VerifyCodeRequest request) {
+        // 인증 코드 검증 로직
+        boolean isValid = emailService.verifyCode(request.getEmail(), request.getVerificationCode());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", isValid);
+
+        return ResponseEntity.ok(response);
+    }
 }

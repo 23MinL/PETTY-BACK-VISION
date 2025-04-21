@@ -4,6 +4,7 @@ import io.github.petty.users.entity.EmailVerification;
 import io.github.petty.users.repository.EmailVerificationRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -56,5 +57,23 @@ public class EmailService {
 
         javaMailSender.send(mimeMessage);
         log.info("이메일 ({})로 인증 코드 ({})를 성공적으로 전송했습니다.", toEmail, code);
+    }
+
+    // 인증 코드 확인
+    @Transactional
+    public boolean verifyCode(String email, String code) {
+        EmailVerification latestVerification = emailVerificationRepository.findTopByEmailOrderByIdDesc(email);
+
+        if (latestVerification != null
+                && latestVerification.getCode().equals(code)
+                && latestVerification.getCreatedAt().isAfter(LocalDateTime.now().minusMinutes(5))) {
+
+            emailVerificationRepository.deleteByEmail(email);
+            log.info("이메일 ({}) 인증 성공 및 인증 데이터 삭제", email);
+            return true;
+        }
+
+        log.warn("이메일 ({}) 인증 실패", email);
+        return false;
     }
 }

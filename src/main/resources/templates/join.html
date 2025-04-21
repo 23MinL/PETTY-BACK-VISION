@@ -211,7 +211,7 @@
 
         <div id="signup-form" class="signup-form">
             <h2>회원 정보 입력</h2>
-            <form id="registration-form" th:action="@{/signup}" method="post" th:object="${JoinDTO}">
+            <form id="registration-form" th:action="@{/join}" method="post" th:object="${JoinDTO}">
                 <div class="form-group">
                     <label for="email">이메일</label>
                     <div class="email-group">
@@ -239,7 +239,7 @@
                 <div class="form-group">
                     <label for="password">비밀번호</label>
                     <input type="password" id="password" class="form-control" required placeholder="8자 이상의 영문, 숫자, 특수문자 조합" th:field="*{password}" autocomplete="new-password">
-                    <div class="error-message" id="password-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <div class="error-message" id="password-error"></div>
                 </div>
 
                 <div class="form-group">
@@ -251,13 +251,13 @@
                 <div class="form-group">
                     <label for="name">이름</label>
                     <input type="text" id="name" class="form-control" required placeholder="이름을 입력해주세요" th:field="*{displayName}">
-                    <div class="error-message" th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}"></div>
+                    <div class="error-message" th:errors="*{displayName}"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">연락처</label>
                     <input type="tel" id="phone" class="form-control" required placeholder="'-' 없이 입력해주세요" th:field="*{phone}">
-                    <div class="error-message" id="phone-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    <div class="error-message" id="phone-error"></div>
                 </div>
                 <!--
                             <h3>반려동물 정보</h3>
@@ -347,13 +347,13 @@
         function validatePasswordMatch() {
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
-            const errorElement = document.getElementById('confirm-password-error');
+            const passwordErrorElement = document.getElementById('confirm-password-error');
 
             if(confirmPassword && password !== confirmPassword) {
-                errorElement.textContent = '비밀번호가 일치하지 않습니다.';
+                passwordErrorElement.textContent = '비밀번호가 일치하지 않습니다.';
                 return false;
             } else {
-                errorElement.textContent = '';
+                passwordErrorElement.textContent = '';
                 return true;
             }
         }
@@ -457,6 +457,7 @@
                         document.getElementById('verification-code').disabled = true;
                         document.getElementById('resend-code-btn').disabled = true;
                         document.getElementById('confirm-code-btn').disabled = true;
+                        document.getElementById('verification-timer').style.display = 'none';
 
                         stopTimer();
                     } else {
@@ -513,12 +514,15 @@
 
         // 폼 제출 전 유효성 검사
         document.getElementById('registration-form').addEventListener('submit', function(e) {
+            const passwordErrorElement = document.getElementById('password-error');
+            const phoneErrorElement = document.getElementById('phone-error');
+
             let isValid = true;
 
             // 이메일 인증 여부 검사
             if (document.getElementById('is-email-verified').value !== 'true') {
                 e.preventDefault();
-                document.getElementById('verification-error').textContent = '이메일 인증을 완료해주세요.';
+                document.getElementById('email-error').textContent = '이메일 인증을 완료해주세요.';
                 isValid = false;
             }
 
@@ -527,7 +531,7 @@
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
             if (!passwordRegex.test(password)) {
                 e.preventDefault();
-                document.getElementById('password-error').textContent = '비밀번호는 8자 이상의 영문, 숫자, 특수문자 조합이어야 합니다.';
+                passwordErrorElement.textContent = '비밀번호는 8자 이상의 영문, 숫자, 특수문자 조합이어야 합니다.';
                 isValid = false;
             }
 
@@ -540,9 +544,10 @@
             // 전화번호 형식 검사
             const phone = document.getElementById('phone').value;
             const phoneRegex = /^01[016789]\d{7,8}$/;
+            phoneErrorElement.textContent = '';
             if (!phoneRegex.test(phone)) {
                 e.preventDefault();
-                document.getElementById('phone-error').textContent = '유효한 전화번호를 입력해주세요. (예: 01012345678)';
+                phoneErrorElement.textContent = '유효한 전화번호를 입력해주세요. (예: 01012345678)';
                 isValid = false;
             }
 
