@@ -23,4 +23,7 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
      * @return 삭제된 레코드 수 (반환 타입은 void 또는 long 등 조정 가능)
      */
     long deleteAllByContentIdIn(List<Long> contentIds);
+
+    // 테스트용 10개 추출
+    List<Content> findTop10ByOrderByContentIdAsc();
 }
