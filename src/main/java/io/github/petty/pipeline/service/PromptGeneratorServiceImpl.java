@@ -8,10 +8,10 @@ public class PromptGeneratorServiceImpl implements PromptGeneratorService {
     @Override
     public String generatePrompt(String extractedPetInfoJson, String location) {
         return String.format("""
-                반려동물 JSON 정보:
+                {
                 %s
-                사용자가 입력한 위치:
-                %s
+                "location": "%s"
+                }
                 """, extractedPetInfoJson, location);
     }
 }
