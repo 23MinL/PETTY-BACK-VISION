@@ -67,6 +67,9 @@ public class SupabaseDataSourceConfig {
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.put("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
 
+        // ddl.auto
+        jpaProperties.put("hibernate.hbm2ddl.auto", "update");
+
         return builder.dataSource(dataSource)
                 .packages(
                         "io.github.petty.users.entity"

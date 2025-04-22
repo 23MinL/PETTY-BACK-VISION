@@ -5,6 +5,7 @@ import io.github.petty.users.service.JoinService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -20,17 +21,18 @@ public class UsersController {
     }
 
     @GetMapping("/join")
-    public String joinForm() {
+    public String joinForm(Model model) {
+        model.addAttribute("JoinDTO", new JoinDTO());
         return "join";
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
         public String joinProcess(JoinDTO joinDTO, RedirectAttributes redirectAttributes) {
 
             Boolean joinResult = joinService.joinProcess(joinDTO);
             if (!joinResult) {
-                redirectAttributes.addFlashAttribute("error", "가입에 실패했습니다.");
-                return "redirect:/join";
+                redirectAttributes.addFlashAttribute("error", "이미 존재하는 계정입니다!");
+                return "redirect:/";
             }
             return "redirect:/login";
         }
