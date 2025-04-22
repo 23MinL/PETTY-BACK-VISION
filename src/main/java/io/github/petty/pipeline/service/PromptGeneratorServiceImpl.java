@@ -7,11 +7,15 @@ public class PromptGeneratorServiceImpl implements PromptGeneratorService {
 
     @Override
     public String generatePrompt(String extractedPetInfoJson, String location) {
+        try {
         return String.format("""
                 {
                 %s
                 "location": "%s"
                 }
                 """, extractedPetInfoJson, location);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
