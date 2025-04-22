@@ -1,29 +1,111 @@
-<!-- src/main/resources/templates/visionUpload.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>🐾 PETTY - 동물 이미지 분석</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PETTY | 동물 이미지 분석</title>
+
 </head>
 <body>
-<h1>동물 이미지 분석</h1>
+<div id="navbar"></div>
+<section class="main">
+    <div class="container mt-4">
+    </div>
 
-<form method="post" enctype="multipart/form-data" action="/api/vision/analyze">
-    <label>반려동물 이름: <input type="text" name="petName" placeholder="반려동물 이름 입력" required /></label><br/><br/>
-    <label>이미지 선택: <input type="file" name="file" required /></label>
-    <button type="submit">분석하기</button>
-</form>
+    <section class="container section-body">
+        <div class="container mt-5">
+            <div class="row justify-content-center result">
+                <div class="col-md-6">
+                    <div class="card shadow-lg">
+                        <div class="card-body" id="formContainer">
+                            <h3 class="text-center mb-4">반려 동물 정보를 입력하세요</h3>
+                            <form id="visionForm">
+                                <div class="mb-3">
+                                    <label for="petName" class="form-label">반려동물 이름</label>
+                                    <input type="text" class="form-control" name="petName" id="petName" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">이미지 선택</label>
+                                    <input type="file" class="form-control" name="file" id="file" accept="image/*" required />
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">분석하기</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-<div th:if="${message}">
-    <h2 th:text="${message}"></h2>
-</div>
+                    <div id="spinnerContainer" class="text-center mt-3" style="display: none">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>🔄 이미지 분석 중...</p>
+                    </div>
 
-<div th:if="${analysisResult}">
-    <h3>분석 결과</h3>
-    <pre th:text="${analysisResult}"></pre>
-</div>
+                    <div id="result" style="display: none">
+                        <div class="mb-3 text-center">
+                            <img id="showImg" src="" alt="선택한 이미지 미리보기" class="img-fluid rounded shadow" style="max-width: 100%" />
+                        </div>
+                        <div id="interim" class="fw-bold text-center mb-2"></div>
+                        <pre id="finalReport" class="border p-3 bg-light"></pre>
 
-<hr />
-<a href="/">⬅ 돌아가기</a>
+                        <!-- 돌아가기 버튼 추가 -->
+                        <div class="text-center mt-4">
+                            <a href="/" class="btn btn-outline-secondary">⬅ 돌아가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<div id="footer"></div>
+
+<script>
+    const form = document.getElementById('visionForm');
+    const spinner = document.getElementById('spinnerContainer');
+    const result = document.getElementById('result');
+    const interim = document.getElementById('interim');
+    const report = document.getElementById('finalReport');
+    const showImg = document.getElementById('showImg');
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        spinner.style.display = 'block';
+        result.style.display = 'none';
+        interim.textContent = '';
+        report.textContent = '';
+
+        const fd = new FormData(form);
+        const fileInput = document.getElementById('file');
+        if (fileInput.files[0]) {
+            showImg.src = URL.createObjectURL(fileInput.files[0]);
+        }
+
+        try {
+            const res1 = await fetch('/vision/species', { method: 'POST', body: fd });
+            const text1 = await res1.text();
+            interim.textContent = text1;
+            result.style.display = 'block';
+        } catch (e) {
+            interim.textContent = 'AWS 분석 중 오류가 발생했습니다…';
+            console.error(e);
+        }
+
+        try {
+            const res2 = await fetch('/vision/analyze', { method: 'POST', body: fd });
+            const reportText = await res2.text();
+            interim.textContent = '';
+            report.textContent = reportText;
+        } catch (e) {
+            interim.textContent = '';
+            report.textContent = '최종 분석 중 오류가 발생했습니다.';
+            console.error(e);
+        }
+
+        spinner.style.display = 'none';
+    });
+</script>
 </body>
 </html>
