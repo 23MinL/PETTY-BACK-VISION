@@ -1,8 +1,6 @@
 package io.github.petty.pipeline.controller;
 
-import io.github.petty.pipeline.service.PromptAssemblyService;
-import io.github.petty.pipeline.service.PromptGeneratorService;
-import io.github.petty.pipeline.service.TogetherService;
+import io.github.petty.pipeline.support.TogetherPromptBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class PipelineController {
 
-    private final PromptAssemblyService promptAssemblyService;
+    private final TogetherPromptBuilder togetherPromptBuilder;
 
     @GetMapping("/pipeline")
     public String showPipelineForm() {
@@ -32,7 +30,7 @@ public class PipelineController {
             Model model
     ) {
         try {
-            String prompt = promptAssemblyService.assemblePrompt(visionReport, location);
+            String prompt = togetherPromptBuilder.buildPrompt(visionReport, location);
             model.addAttribute("recommendation", prompt);
             return "pipeline";
 
