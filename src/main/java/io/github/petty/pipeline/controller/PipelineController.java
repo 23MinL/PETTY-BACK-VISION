@@ -1,6 +1,6 @@
 package io.github.petty.pipeline.controller;
 
-import io.github.petty.pipeline.util.TogetherPromptBuilder;
+import io.github.petty.pipeline.support.TogetherPromptBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

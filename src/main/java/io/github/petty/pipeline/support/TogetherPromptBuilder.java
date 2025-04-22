@@ -1,13 +1,13 @@
-package io.github.petty.pipeline.util;
+package io.github.petty.pipeline.support;
 
 import io.github.petty.pipeline.service.PromptGeneratorService;
 import io.github.petty.pipeline.service.TogetherService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class TogetherPromptBuilderImpl implements TogetherPromptBuilder {
+public class TogetherPromptBuilder {
 
     private final TogetherService togetherService;
     private final PromptGeneratorService promptGeneratorService;
