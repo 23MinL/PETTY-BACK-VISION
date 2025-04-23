@@ -37,8 +37,8 @@ out/
 .vscode/
 
 ### Vision test API ###
-application-dev.yml
-credentials.json
+application-vision-only.yml
 
 ### secret ###
 application-secret.yml
+application-dev.yml
